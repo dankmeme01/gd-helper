@@ -1,6 +1,11 @@
 #pragma once
 #include "errors.h"
 #include <vector>
+// preset guide:
+// 0,1 - test
+// 2 - phobos to dzidzio - kadilak
+// 3 - at the speed of light to manuel - gas gas gas
+// 4 - aurora to pumped up kicks
 
 std::vector<std::string> _presets = {
 	"download,https://github.com/yourkin/fileupload-fastapi/raw/a85a697cab2f887780b3278059a0dd52847d80f3/tests/data/test-10mb.bin,10mbtrash.bin",
