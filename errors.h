@@ -27,6 +27,6 @@ public:
 
 class GameNotExists : public std::runtime_error {
 public:
-	GameNotExists() :runtime_error("Geometry Dash is not started up, please fix") {}
+	GameNotExists() :runtime_error("Geometry Dash is not started up, when it is required in instruction") {}
 	GameNotExists(std::string msg) :runtime_error(msg.c_str()) {};
 };

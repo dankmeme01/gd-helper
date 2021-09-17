@@ -6,10 +6,26 @@
 #include <Windows.h>
 #include <Psapi.h>
 #include <TlHelp32.h>
+#include <iostream>
 #include "presets.h"
 #include "download.h"
 void tokenize(std::string const&, const char*, std::vector<std::string>&);
 HANDLE GetProcessByName(PCSTR);
+
+/*
+DOCS FOR COMMANDS:
+[] means optional argument
+$ means command argument
+
+download: (string/var url, string/var filename, [string/var location] = Temp) - downloads a file from $url to $location/$filename
+set: (string var, string/var value) - sets a variable with name $var to $value
+findgd: () - sets $gmd to geometry dash folder or throws if gd is not started
+findsong: () - sets $gmdsong to appdata/local/geometrydash
+deletesong: (string/var id) - deletes $id.mp3 from $gmdsong, throws if undefined
+stdout: (string/var data) - outputs $data to STDOUT
+stderr: (string/var data) - outputs $data to STDERR
+input: (string varname) - sets $varname variable to data inputted by user
+*/
 
 class Instruction {
 	std::vector<std::string> instructions;
@@ -64,6 +80,23 @@ public:
             }
             else throw InvalidInstructionError(instruction, "Argument overload! Expected 1 argument, got " + std::to_string(args.size()));
             if (gmd == "") throw InvalidInstructionError(instruction, "Trying to run deletesong command before running findsong");
+        }
+        else if (command == "stdout") {
+            if (args.size() < 1) throw InvalidInstructionError(instruction, "Invalid amount of arguments given to stdout command, should be (var/text)");
+            else if (args.size() > 1) throw InvalidInstructionError(instruction, "Argument overload! Expected 1 argument, got " + std::to_string(args.size()));
+            std::cout << args.at(0);
+        }
+        else if (command == "stderr") {
+            if (args.size() < 1) throw InvalidInstructionError(instruction, "Invalid amount of arguments given to stderr command, should be (var/text)");
+            else if (args.size() > 1) throw InvalidInstructionError(instruction, "Argument overload! Expected 1 argument, got " + std::to_string(args.size()));
+            std::cerr << args.at(0);
+        }
+        else if (command == "input") {
+            if (args.size() < 1) throw InvalidInstructionError(instruction, "Invalid amount of arguments given to input command, should be (varName)");
+            else if (args.size() > 1) throw InvalidInstructionError(instruction, "Argument overload! Expected 1 argument, got " + std::to_string(args.size()));
+            std::string _inp;
+            getline(std::cin, _inp);
+            this->setVar(args.at(1), _inp);
         }
         else throw InvalidInstructionError(instruction, "Invalid command: " + command);
     }
