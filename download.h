@@ -18,7 +18,7 @@ size_t write_data(void* ptr, size_t size, size_t nmemb, FILE* stream) {
 
 void DownloadFile(std::string url, std::string name, fs::path savePath = fs::temp_directory_path()) {
 	if (!fs::exists(savePath)) throw FileNotFoundError(savePath.string());
-	auto save = savePath / name;
+	auto save = savePath / (name + ".dl");
 	std::cout << "Downloading " << url << " to " << save.string() << std::endl;
 
 	if (gCurl) {
@@ -36,4 +36,6 @@ void DownloadFile(std::string url, std::string name, fs::path savePath = fs::tem
 	} else {
 		throw DownloadError("cURL instance is undefined");
 	}
+	if (fs::exists(savePath / name)) fs::remove(savePath / name);
+	fs::rename(save, savePath / name);
 }

@@ -84,7 +84,7 @@ public:
         else if (command == "stdout") {
             if (args.size() < 1) throw InvalidInstructionError(instruction, "Invalid amount of arguments given to stdout command, should be (var/text)");
             else if (args.size() > 1) throw InvalidInstructionError(instruction, "Argument overload! Expected 1 argument, got " + std::to_string(args.size()));
-            std::cout << args.at(0);
+            std::cout << args.at(0) << std::endl;
         }
         else if (command == "stderr") {
             if (args.size() < 1) throw InvalidInstructionError(instruction, "Invalid amount of arguments given to stderr command, should be (var/text)");
@@ -95,8 +95,9 @@ public:
             if (args.size() < 1) throw InvalidInstructionError(instruction, "Invalid amount of arguments given to input command, should be (varName)");
             else if (args.size() > 1) throw InvalidInstructionError(instruction, "Argument overload! Expected 1 argument, got " + std::to_string(args.size()));
             std::string _inp;
+            std::cout << ">>";
             getline(std::cin, _inp);
-            this->setVar(args.at(1), _inp);
+            this->setVar(args.at(0), _inp);
         }
         else throw InvalidInstructionError(instruction, "Invalid command: " + command);
     }
