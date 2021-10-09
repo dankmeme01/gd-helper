@@ -29,10 +29,9 @@ void DownloadFile(std::string url, std::string name, fs::path savePath = fs::tem
 		curl_easy_setopt(gCurl, CURLOPT_FOLLOWLOCATION, 1L);
 		curl_easy_setopt(gCurl, CURLOPT_WRITEDATA, fp);
 		CURLcode res = curl_easy_perform(gCurl);
-		curl_easy_cleanup(gCurl);
-		if(fp) fclose(fp);
-
+		if (fp) fclose(fp);
 		if (res != CURLE_OK) throw DownloadError(curl_easy_strerror(res));
+
 	} else {
 		throw DownloadError("cURL instance is undefined");
 	}

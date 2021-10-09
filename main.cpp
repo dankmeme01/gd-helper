@@ -31,7 +31,9 @@ int main(int argc, const char** argv) {
 		catch (std::exception& e) {
 			std::cout << "Oh no! An error has occured during executing instructions:" << std::endl;
 			std::cerr << e.what() << std::endl;
+			system("pause");
 		}
 	}
+	curl_easy_cleanup(curl);
 	return 0;
 }
